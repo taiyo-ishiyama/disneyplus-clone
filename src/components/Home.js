@@ -6,6 +6,7 @@ import Movies from './Movies'
 
 
 function Home() {
+
   return (
     <Container>
       <ImgSlider/>
