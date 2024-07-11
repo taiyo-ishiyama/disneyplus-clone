@@ -2,25 +2,29 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import moviesData from "../moviesData";
 
 function Movies() {
-  const [movies, setMovies] = useState([]);
+  const movies = Object.values(moviesData.movies);
 
-  useEffect(() => {
-    axios
-      .get("/api/movies", {
-        headers: {
-          "Cache-Control": "no-cache",
-        },
-      })
-      .then((response) => {
-        console.log("Movies data:", response.data); // Log the response data
-        setMovies(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the movies!", error);
-      });
-  }, []);
+  // // (when using mysql)
+  // const [movies, setMovies] = useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/movies", {
+  //       headers: {
+  //         "Cache-Control": "no-cache",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("Movies data:", response.data); // Log the response data
+  //       setMovies(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the movies!", error);
+  //     });
+  // }, []);
 
   return (
     <Container>
@@ -29,7 +33,7 @@ function Movies() {
         {movies.map((movie, index) => (
           <Wrap key={index}>
             <Link to={`/detail/${movie.id}`}>
-              <img src={movie.card_img} alt={movie.title} />
+              <img src={movie.cardImg} alt={movie.title} />
             </Link>
           </Wrap>
         ))}

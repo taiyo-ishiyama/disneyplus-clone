@@ -2,42 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import moviesData from '../moviesData';
 
 function Detail() {
   const { id } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [error, setError] = useState(null);
+  const movie = moviesData.movies[id];
 
-  useEffect(() => {
-    axios.get(`http://localhost:5000/api/movies/${id}`)
-      .then(response => {
-        if (response.data) {
-          setMovie(response.data);
-        } else {
-          setError('Movie not found');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setError('Movie not found');
-      });
-  }, [id]);
+    if (!movie) {
+        return <div>Movie not found</div>;
+    }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+  // // when using mysql
+  // const [movie, setMovie] = useState(null);
+  // const [error, setError] = useState(null);
 
-  if (!movie) {
-    return <div>Loading...</div>;
-  }
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5000/api/movies/${id}`)
+  //     .then(response => {
+  //       if (response.data) {
+  //         setMovie(response.data);
+  //       } else {
+  //         setError('Movie not found');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //       setError('Movie not found');
+  //     });
+  // }, [id]);
+
+  // if (error) {
+  //   return <div>{error}</div>;
+  // }
+
+  // if (!movie) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <Container>
       <Background>
-        <img src={movie.background_img} alt={movie.title} />
+        <img src={movie.backgroundImg} alt={movie.title} />
       </Background>
       <ImgTitle>
-        <img src={movie.title_img} alt={movie.title} />
+        <img src={movie.titleImg} alt={movie.title} />
       </ImgTitle>
       <Controls>
         <PlayButton>
@@ -68,7 +76,7 @@ function Detail() {
 export default Detail;
 
 const Container = styled.div`
-  min-hieght: calc(100vh - 70px);
+  min-height: calc(100vh - 70px);
   padding: 0 calc(3.5vw + 5px);
   position: relative;
 `
